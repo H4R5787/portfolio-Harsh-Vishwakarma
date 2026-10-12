@@ -59,7 +59,7 @@
       <div>
         <span class="status-pill"><span class="dot"></span>Full-time DevOps Engineer – Cyber Security @ TCS</span>
         <h1>I break things on purpose,<br>then build the fix<span class="accent">.</span></h1>
-        <p class="lede">Harsh Vishwakarma — DevOps Engineer in Cyber Security at Tata Consultancy Services (TCS), working on application security testing and DevSecOps for enterprise banking &amp; financial applications.</p>
+        <p class="lede">Harsh Vishwakarma — DevOps Engineer in Cyber Security at Tata Consultancy Services (TCS), working on application security testing for enterprise banking &amp; financial applications.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="#projects">View projects</a>
           <a class="btn btn-secondary" href="#contact">Get in touch</a>
@@ -139,8 +139,7 @@
     <div class="project-grid">
       <article class="card project-card">
         <div class="card-top">
-          <h3>Virus Detection Web Application</h3>
-          <span class="featured-tag">Featured</span>
+          <h3>VirusGuard</h3>
         </div>
         <dl class="paw">
           <dt>Problem</dt><dd>Manual file scanning gives no automated read on whether an uploaded file is malicious, or why.</dd>
@@ -150,13 +149,13 @@
         <div class="chip-row">
           <span class="chip">Flask</span><span class="chip">MySQL</span><span class="chip">Bootstrap</span><span class="chip">VirusTotal API</span><span class="chip">Llama 3</span>
         </div>
-        <div class="cta-row"><a href="https://github.com/H4R5787/Virus-Detection-System" target="_blank" rel="noopener">View on GitHub</a></div>
+        <div class="cta-row"><a href="https://github.com/H4R5787/VirusGuard" target="_blank" rel="noopener">View on GitHub</a></div>
       </article>
 
       <article class="card project-card">
         <div class="card-top">
           <h3>HarshOS — Bare-Metal x86_64 OS</h3>
-          <span class="featured-tag">Featured</span>
+          <span class="featured-tag">Ongoing</span>
         </div>
         <dl class="paw">
           <dt>Problem</dt><dd>Wanted to understand what an operating system actually does below the syscall layer, not just how to call one.</dd>
@@ -166,7 +165,7 @@
         <div class="chip-row">
           <span class="chip">Rust</span><span class="chip">x86_64</span><span class="chip">Systems Programming</span><span class="chip">Memory Management</span>
         </div>
-        <div class="cta-row"><span class="no-link">Source available on request</span></div>
+        <div class="cta-row"><a href="https://github.com/H4R5787/HarshOS" target="_blank" rel="noopener">View on GitHub</a></div>
       </article>
 
       <article class="card project-card">
@@ -187,6 +186,7 @@
       <article class="card project-card">
         <div class="card-top">
           <h3>Nova — Custom Programming Language</h3>
+          <span class="featured-tag">Ongoing</span>
         </div>
         <dl class="paw">
           <dt>Problem</dt><dd>Wanted a hands-on way to learn how interpreters actually resolve scope, rather than just reading about it.</dd>
@@ -264,7 +264,7 @@
           <div class="xp-body">
             <div class="chip-row">
               <span class="chip">DAST</span><span class="chip">Veracode</span><span class="chip">API Security Testing</span>
-              <span class="chip">MFA / SSO Testing</span><span class="chip">DevSecOps</span><span class="chip">Python</span>
+              <span class="chip">MFA / SSO Testing</span><span class="chip">Python</span>
               <span class="chip">Bash Scripting</span><span class="chip">Selenium</span><span class="chip">Git &amp; CI/CD</span>
               <span class="chip">Linux (Ubuntu, Kali)</span><span class="chip">Burp Suite</span><span class="chip">Nmap</span>
               <span class="chip">OWASP Top 10</span><span class="chip">Vulnerability Assessment</span>
@@ -280,7 +280,7 @@
               <li>Hands-on experience with Burp Suite, Wireshark, Metasploit, Nmap, FFUF, Amass, and Subfinder.</li>
               <li>Completed the Google Cybersecurity Professional Certificate.</li>
               <li>Earned the Cisco Ethical Hacker certification.</li>
-              <li>Strong interest in DevSecOps, Cloud Security, Application Security, and Security Automation.</li>
+              <li>Strong interest in Cloud Security, Application Security, and Security Automation.</li>
             </ul>
           </div>
         </details>
@@ -323,12 +323,35 @@
     <div class="contact-wrap">
       <div class="card">
         <p class="no-max">Currently working full-time as a DevOps Engineer – Cyber Security at TCS. Open to networking, collaboration, and freelance security/dev projects. Based in Maharashtra, India.</p>
-        <a class="btn btn-primary btn-block" href="mailto:harsh902888@gmail.com">Email me</a>
+        <form class="contact-form" id="contactForm" action="https://formspree.io/f/xoejwygp" method="POST">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="contactName">Name</label>
+              <input type="text" id="contactName" name="name" placeholder="Your Name" required autocomplete="name">
+            </div>
+            <div class="form-group">
+              <label for="contactEmail">Email</label>
+              <input type="email" id="contactEmail" name="email" placeholder="name@example.com" required autocomplete="email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="contactSubject">Subject</label>
+            <input type="text" id="contactSubject" name="subject" placeholder="Project inquiry / Collaboration" required>
+          </div>
+          <div class="form-group">
+            <label for="contactMessage">Message</label>
+            <textarea id="contactMessage" name="message" rows="4" placeholder="Your message here..." required></textarea>
+          </div>
+          <!-- Spam prevention honeypot for Formspree -->
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+          <button type="submit" id="contactSubmitBtn" class="btn btn-primary btn-block">Send Message →</button>
+          <div id="contactFormStatus" class="form-status" role="status" aria-live="polite"></div>
+        </form>
       </div>
-      <p class="contact-note"><span class="dot">●</span> Usually replies within 1–2 business days · email is the fastest way to reach me</p>
+      <p class="contact-note"><span class="dot">●</span> Usually replies within 1–2 business days · or reach out directly at <a href="mailto:vishwakarma.harsh.office@gmail.com" class="contact-email-link">vishwakarma.harsh.office@gmail.com</a></p>
       <div class="social-row">
         <a href="https://github.com/H4R5787" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.linkedin.com/in/harsh-vishwakarma-2348332ab/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.linkedin.com/in/harsh-vishwakarma-b88ab4410/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="https://tryhackme.com/p/H4R5787?tab=yearly-activity" target="_blank" rel="noopener">TryHackMe</a>
       </div>
     </div>

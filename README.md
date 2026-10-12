@@ -8,7 +8,7 @@
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![Security Focus](https://img.shields.io/badge/Security-DevSecOps%20%7C%20DAST-4FD1FF?style=for-the-badge&logo=securityscorecard&logoColor=0B0E14)](#-security--performance-features)
+[![Security Focus](https://img.shields.io/badge/Security-DAST-4FD1FF?style=for-the-badge&logo=securityscorecard&logoColor=0B0E14)](#-security--performance-features)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-39FF6A.svg?style=for-the-badge)](#-author--connect)
 
 <p align="center">
@@ -466,13 +466,13 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 
 **Harsh Vishwakarma**  
 *DevOps Engineer in Cyber Security @ Tata Consultancy Services (TCS)*  
-*Specialized in DAST, Veracode, Application Security Testing & DevSecOps*
+*Specialized in DAST, Veracode & Application Security Testing*
 
 - 🌐 **Portfolio**: [portfolio-Harsh-Vishwakarma](https://github.com/H4R5787/portfolio-Harsh-Vishwakarma)
-- 💼 **LinkedIn**: [harsh-vishwakarma-2348332ab](https://www.linkedin.com/in/harsh-vishwakarma-2348332ab/)
+- 💼 **LinkedIn**: [harsh-vishwakarma-b88ab4410](https://www.linkedin.com/in/harsh-vishwakarma-b88ab4410/)
 - 🐙 **GitHub**: [@H4R5787](https://github.com/H4R5787)
 - 🎯 **TryHackMe**: [H4R5787](https://tryhackme.com/p/H4R5787?tab=yearly-activity)
-- ✉️ **Email**: [harsh902888@gmail.com](mailto:harsh902888@gmail.com)
+- ✉️ **Email**: [vishwakarma.harsh.office@gmail.com](mailto:vishwakarma.harsh.office@gmail.com)
 
 <div align="center">
   <sub>Built with precision, security, and clean code. © Harsh Vishwakarma.</sub>

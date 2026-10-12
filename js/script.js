@@ -134,7 +134,7 @@
     skills: function(){ return "Security: DAST, Veracode, Burp Suite, Nmap, OWASP Top 10\nDev: Python, Bash, Selenium, Flask, SQL\nOther: Linux (Ubuntu, Kali), Git & CI/CD"; },
     projects: function(){ return "1) Virus Detection Web Application — Flask + MySQL + VirusTotal API + Llama 3\n2) HarshOS — bare-metal x86_64 OS written in Rust\n3) StudyMate — offline AI study assistant (TensorFlow Lite)\n4) Nova — custom programming language + browser REPL\n5) AI social media publishing pipeline (Gemini API + platform APIs)\n6) mini_os.py — Python OS simulator (round-robin scheduler)\nType 'open projects' to view the full section, or 'cd projects' to browse them here."; },
     experience: function(){ return "DevOps Engineer – Cyber Security @ TCS (Dec 2025–Present) · Cybersecurity Intern @ Acmegrade (Jan–Mar 2024) · B.Sc. Computer Science, Shankar Narayan College (2022–2025) · TryHackMe CTF practice · Google Cybersecurity Professional Certificate · Cisco Ethical Hacker Certification · Top 100, TCS HackQuest Season 9"; },
-    contact: function(){ return "Email: harsh902888@gmail.com\nGitHub: github.com/H4R5787\nLinkedIn: linkedin.com/in/harsh-vishwakarma-2348332ab"; },
+    contact: function(){ return "Email: vishwakarma.harsh.office@gmail.com\nGitHub: github.com/H4R5787\nLinkedIn: linkedin.com/in/harsh-vishwakarma-b88ab4410"; },
     clear: function(){ termOut.innerHTML=''; return null; }
   };
 
@@ -143,10 +143,10 @@
     type: 'dir',
     children: {
       'about.txt': { type:'file', content:"Full-time DevOps Engineer – Cyber Security at TCS.\nFocused on DAST, Veracode, and application security for banking & financial applications." },
-      'skills.txt': { type:'file', content:"DAST · Veracode · API Security Testing · MFA/SSO Testing · DevSecOps\nPython · Bash · Selenium · Git & CI/CD · Linux (Ubuntu, Kali) · Burp Suite · Nmap" },
+      'skills.txt': { type:'file', content:"DAST · Veracode · API Security Testing · MFA/SSO Testing\nPython · Bash · Selenium · Git & CI/CD · Linux (Ubuntu, Kali) · Burp Suite · Nmap" },
       'experience.txt': { type:'file', content:"DevOps Engineer – Cyber Security, TCS (Dec 2025–Present)\nCybersecurity Intern, Acmegrade (Jan–Mar 2024)\nB.Sc. Computer Science, Shankar Narayan College of Arts & Commerce (2022–2025)\nTop 100, TCS HackQuest Season 9" },
-      'contact.txt': { type:'file', content:"harsh902888@gmail.com\ngithub.com/H4R5787\nlinkedin.com/in/harsh-vishwakarma-2348332ab" },
-      'resume.pdf': { type:'file', content:"[binary file — email me for a current copy: harsh902888@gmail.com]" },
+      'contact.txt': { type:'file', content:"vishwakarma.harsh.office@gmail.com\ngithub.com/H4R5787\nlinkedin.com/in/harsh-vishwakarma-b88ab4410" },
+      'resume.pdf': { type:'file', content:"[binary file — email me for a current copy: vishwakarma.harsh.office@gmail.com]" },
       'projects': {
         type:'dir',
         children:{
@@ -1201,4 +1201,63 @@
     });
   });
 
+  /* ============ Formspree AJAX Contact Form ============ */
+  var contactForm = document.getElementById('contactForm');
+  var formStatus = document.getElementById('contactFormStatus');
+  var submitBtn = document.getElementById('contactSubmitBtn');
+
+  if(contactForm){
+    contactForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      if(!submitBtn || !formStatus) return;
+
+      var originalBtnText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      formStatus.className = 'form-status';
+      formStatus.style.display = 'none';
+
+      function restoreBtn(){
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
+      }
+
+      var data = new FormData(contactForm);
+
+      fetch(contactForm.action, {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(function(res){
+        restoreBtn();
+        if(res.ok){
+          formStatus.textContent = '✓ Message sent successfully! I will get back to you soon.';
+          formStatus.className = 'form-status success';
+          contactForm.reset();
+        } else {
+          return res.json().then(function(errData){
+            var msg = 'Failed to send message. Please try again or email directly.';
+            if(errData && errData.errors && errData.errors.length){
+              msg = errData.errors.map(function(err){ return err.message; }).join(', ');
+            }
+            formStatus.textContent = msg;
+            formStatus.className = 'form-status error';
+          }).catch(function(){
+            formStatus.textContent = 'Failed to send message. Please try again or email directly.';
+            formStatus.className = 'form-status error';
+          });
+        }
+      })
+      .catch(function(){
+        restoreBtn();
+        formStatus.textContent = 'Network error. Please check your connection or email directly.';
+        formStatus.className = 'form-status error';
+      });
+    });
+  }
+
 })();
+
