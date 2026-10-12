@@ -1201,25 +1201,150 @@
     });
   });
 
-  /* ============ Formspree AJAX Contact Form ============ */
+  /* ============ Contact Section: UI/UX Enhancements ============ */
+
+  // 1. Live Indian Standard Time (IST) Clock
+  var istClockEl = document.getElementById('istClock');
+  function updateISTClock(){
+    if(!istClockEl) return;
+    try {
+      var now = new Date();
+      var options = {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      };
+      var timeStr = now.toLocaleTimeString('en-US', options);
+      istClockEl.textContent = timeStr + ' IST';
+    } catch(err){
+      var d = new Date();
+      var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+      var ist = new Date(utc + (3600000 * 5.5));
+      var h = ist.getHours();
+      var m = String(ist.getMinutes()).padStart(2, '0');
+      var ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+      istClockEl.textContent = h + ':' + m + ' ' + ampm + ' IST';
+    }
+  }
+  updateISTClock();
+  setInterval(updateISTClock, 10000);
+
+  // 2. 1-Click Copy Email
+  var copyEmailBtn = document.getElementById('copyEmailBtn');
+  if(copyEmailBtn){
+    copyEmailBtn.addEventListener('click', function(){
+      var email = 'vishwakarma.harsh.office@gmail.com';
+      var copyTextSpan = copyEmailBtn.querySelector('.copy-text');
+      
+      function onCopied(){
+        copyEmailBtn.classList.add('copied');
+        if(copyTextSpan) copyTextSpan.textContent = '✓ Copied!';
+        setTimeout(function(){
+          copyEmailBtn.classList.remove('copied');
+          if(copyTextSpan) copyTextSpan.textContent = 'Copy Email';
+        }, 2200);
+      }
+
+      function fallbackCopy(text){
+        var textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          onCopied();
+        } catch(e){}
+        document.body.removeChild(textArea);
+      }
+
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(email).then(onCopied).catch(function(){
+          fallbackCopy(email);
+        });
+      } else {
+        fallbackCopy(email);
+      }
+    });
+  }
+
+  // 3. Quick Topics Preset Selector
+  var quickPills = document.querySelectorAll('.quick-pill');
+  var subjectInput = document.getElementById('contactSubject');
+  if(quickPills.length && subjectInput){
+    quickPills.forEach(function(pill){
+      pill.addEventListener('click', function(){
+        quickPills.forEach(function(p){ p.classList.remove('active'); });
+        pill.classList.add('active');
+        var subj = pill.getAttribute('data-subject');
+        if(subj){
+          subjectInput.value = subj;
+          subjectInput.focus();
+        }
+      });
+    });
+
+    subjectInput.addEventListener('input', function(){
+      var curVal = subjectInput.value.trim().toLowerCase();
+      quickPills.forEach(function(pill){
+        var subj = (pill.getAttribute('data-subject') || '').toLowerCase();
+        pill.classList.toggle('active', subj === curVal);
+      });
+    });
+  }
+
+  // 4. Live Character Counter for Message Textarea
+  var contactMessage = document.getElementById('contactMessage');
+  var charCountEl = document.getElementById('charCount');
+  if(contactMessage && charCountEl){
+    function updateCharCount(){
+      var len = contactMessage.value.length;
+      charCountEl.textContent = len + (len === 1 ? ' character' : ' characters');
+    }
+    contactMessage.addEventListener('input', updateCharCount);
+  }
+
+  // 5. Keyboard shortcut: Cmd/Ctrl + Enter to dispatch form
   var contactForm = document.getElementById('contactForm');
+  if(contactForm){
+    contactForm.addEventListener('keydown', function(e){
+      if((e.ctrlKey || e.metaKey) && e.key === 'Enter'){
+        e.preventDefault();
+        if(typeof contactForm.requestSubmit === 'function'){
+          contactForm.requestSubmit();
+        } else {
+          var submitEvent = new Event('submit', { cancelable: true });
+          contactForm.dispatchEvent(submitEvent);
+        }
+      }
+    });
+  }
+
+  // 6. Formspree AJAX Submission with Rich States
   var formStatus = document.getElementById('contactFormStatus');
   var submitBtn = document.getElementById('contactSubmitBtn');
 
-  if(contactForm){
+  if(contactForm && submitBtn && formStatus){
     contactForm.addEventListener('submit', function(e){
       e.preventDefault();
-      if(!submitBtn || !formStatus) return;
 
-      var originalBtnText = submitBtn.textContent;
+      var btnText = submitBtn.querySelector('.btn-text');
+      var originalText = btnText ? btnText.textContent : submitBtn.textContent;
+
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending...';
+      submitBtn.classList.add('loading');
+      if(btnText) btnText.textContent = 'Transmitting...';
       formStatus.className = 'form-status';
       formStatus.style.display = 'none';
 
-      function restoreBtn(){
+      function restoreSubmitBtn(){
         submitBtn.disabled = false;
-        submitBtn.textContent = originalBtnText;
+        submitBtn.classList.remove('loading');
+        if(btnText) btnText.textContent = originalText;
       }
 
       var data = new FormData(contactForm);
@@ -1232,29 +1357,48 @@
         }
       })
       .then(function(res){
-        restoreBtn();
+        restoreSubmitBtn();
         if(res.ok){
-          formStatus.textContent = '✓ Message sent successfully! I will get back to you soon.';
           formStatus.className = 'form-status success';
+          formStatus.innerHTML = '<strong>✓ Transmission Successful</strong>' +
+            'Your message has been encrypted and delivered to Harsh Vishwakarma. You will receive a response within ~24 hours.<br>' +
+            '<button type="button" class="reset-form-btn" id="resetContactFormBtn">Send another transmission</button>';
           contactForm.reset();
+          if(charCountEl) charCountEl.textContent = '0 characters';
+          if(subjectInput && quickPills.length > 0){
+            var defaultSubj = quickPills[0].getAttribute('data-subject');
+            if(defaultSubj) subjectInput.value = defaultSubj;
+            quickPills.forEach(function(p, idx){ p.classList.toggle('active', idx === 0); });
+          }
+          var resetBtn = document.getElementById('resetContactFormBtn');
+          if(resetBtn){
+            resetBtn.addEventListener('click', function(){
+              formStatus.style.display = 'none';
+              var firstInput = contactForm.querySelector('input');
+              if(firstInput) firstInput.focus();
+            });
+          }
         } else {
           return res.json().then(function(errData){
-            var msg = 'Failed to send message. Please try again or email directly.';
+            var msg = 'Failed to transmit message.';
             if(errData && errData.errors && errData.errors.length){
               msg = errData.errors.map(function(err){ return err.message; }).join(', ');
             }
-            formStatus.textContent = msg;
             formStatus.className = 'form-status error';
+            formStatus.innerHTML = '<strong>✗ Transmission Failed</strong>' +
+              escapeHtml(msg) + '<br>You can email directly at <a href="mailto:vishwakarma.harsh.office@gmail.com" class="contact-email-link">vishwakarma.harsh.office@gmail.com</a>';
           }).catch(function(){
-            formStatus.textContent = 'Failed to send message. Please try again or email directly.';
             formStatus.className = 'form-status error';
+            formStatus.innerHTML = '<strong>✗ Transmission Failed</strong>' +
+              'Service temporarily unavailable. Please reach out directly at <a href="mailto:vishwakarma.harsh.office@gmail.com" class="contact-email-link">vishwakarma.harsh.office@gmail.com</a>';
           });
         }
       })
       .catch(function(){
-        restoreBtn();
-        formStatus.textContent = 'Network error. Please check your connection or email directly.';
+        restoreSubmitBtn();
         formStatus.className = 'form-status error';
+        formStatus.innerHTML = '<strong>✗ Network Error</strong>' +
+          'Unable to reach transmission endpoint. Please verify your connection or email directly at <a href="mailto:vishwakarma.harsh.office@gmail.com" class="contact-email-link">vishwakarma.harsh.office@gmail.com</a>';
       });
     });
   }
