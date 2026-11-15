@@ -20,11 +20,111 @@
   }
 
   function routeFromHash(){
-    return (location.hash || '#home').replace('#','');
+    var hash = (location.hash || '#home').replace('#','');
+    if(hash === 'certifications' || hash === 'certs'){
+      setTimeout(function(){
+        var el = document.getElementById('certifications');
+        if(el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+      return 'experience';
+    }
+    return hash;
   }
 
   window.addEventListener('hashchange', function(){ setRoute(routeFromHash()); });
   setRoute(routeFromHash());
+
+  /* ============ Theme Management (Dark / Light Mode) ============ */
+  var themeToggleBtn = document.getElementById('themeToggle');
+  var drawerThemeToggleBtn = document.getElementById('drawerThemeToggle');
+  var drawerThemeText = document.getElementById('drawerThemeText');
+  var THEME_KEY = 'portfolio-theme';
+
+  function getSystemTheme() {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  }
+
+  function getStoredTheme() {
+    try {
+      return localStorage.getItem(THEME_KEY) || localStorage.getItem('theme');
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function getEffectiveTheme() {
+    var attr = document.documentElement.getAttribute('data-theme');
+    if (attr === 'light' || attr === 'dark') return attr;
+    var stored = getStoredTheme();
+    if (stored === 'light' || stored === 'dark') return stored;
+    return getSystemTheme();
+  }
+
+  function updateThemeUI(theme) {
+    var isLight = theme === 'light';
+    var nextTheme = isLight ? 'dark' : 'light';
+    var label = 'Switch to ' + nextTheme + ' mode (currently ' + theme + ')';
+
+    if (themeToggleBtn) {
+      themeToggleBtn.setAttribute('aria-label', label);
+      themeToggleBtn.setAttribute('title', label);
+    }
+    if (drawerThemeToggleBtn) {
+      drawerThemeToggleBtn.setAttribute('aria-label', label);
+      drawerThemeToggleBtn.setAttribute('title', label);
+    }
+    if (drawerThemeText) {
+      drawerThemeText.textContent = isLight ? 'Light Mode' : 'Dark Mode';
+    }
+  }
+
+  function applyTheme(theme, animate) {
+    if (animate) {
+      document.documentElement.classList.add('theme-transition');
+      setTimeout(function () {
+        document.documentElement.classList.remove('theme-transition');
+      }, 350);
+    }
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+      localStorage.setItem('theme', theme);
+    } catch (e) {}
+    updateThemeUI(theme);
+  }
+
+  function toggleTheme() {
+    var current = getEffectiveTheme();
+    var next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next, true);
+  }
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', toggleTheme);
+  }
+  if (drawerThemeToggleBtn) {
+    drawerThemeToggleBtn.addEventListener('click', toggleTheme);
+  }
+
+  if (window.matchMedia) {
+    var mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    var onSystemThemeChange = function (e) {
+      try {
+        if (!getStoredTheme()) {
+          applyTheme(e.matches ? 'dark' : 'light', true);
+        }
+      } catch (err) {}
+    };
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', onSystemThemeChange);
+    } else if (mediaQuery.addListener) {
+      mediaQuery.addListener(onSystemThemeChange);
+    }
+  }
+
+  var currentTheme = getEffectiveTheme();
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  updateThemeUI(currentTheme);
 
   /* ============ Mobile drawer ============ */
   var navToggle = document.getElementById('navToggle');
@@ -130,10 +230,10 @@
   var commands = {
     help: function(){ return "Commands: help, whoami, about, skills, projects, experience, contact, clear\nFilesystem: ls, pwd, cd <dir>, cat <file>, mkdir <dir>, touch <file>, rm [-r] <name>, vim <file>"; },
     whoami: function(){ return "harsh-vishwakarma — cybersecurity enthusiast & developer"; },
-    about: function(){ return "B.Sc. Computer Science. Full-time DevOps Engineer – Cyber Security @ TCS, focused on DAST, Veracode, and application security testing."; },
-    skills: function(){ return "Security: DAST, Veracode, Burp Suite, Nmap, OWASP Top 10\nDev: Python, Bash, Selenium, Flask, SQL\nOther: Linux (Ubuntu, Kali), Git & CI/CD"; },
+    about: function(){ return "DevOps Engineer – Cyber Security @ TCS. B.Sc. Computer Science (2025, CGPA: 8.1). Specialized in enterprise DAST, Veracode, and application security validation."; },
+    skills: function(){ return "Cybersecurity: Application Security, Ethical Hacking, Penetration Testing, API Security Testing, Vulnerability Assessment, Network Security, DAST, SAST\nSecurity Tools: Burp Suite, Metasploit, Wireshark, Nmap, OWASP ZAP, FFUF, Amass, Subfinder, Veracode\nProgramming: Python, Bash, SQL, HTML, CSS, JavaScript\nFrameworks: Flask, Bootstrap, Selenium, MySQL, Firebase\nDevOps & Infra: Git, CI/CD, Linux, Cloud Security"; },
     projects: function(){ return "1) Virus Detection Web Application — Flask + MySQL + VirusTotal API + Llama 3\n2) HarshOS — bare-metal x86_64 OS written in Rust\n3) StudyMate — offline AI study assistant (TensorFlow Lite)\n4) Nova — custom programming language + browser REPL\n5) AI social media publishing pipeline (Gemini API + platform APIs)\n6) mini_os.py — Python OS simulator (round-robin scheduler)\nType 'open projects' to view the full section, or 'cd projects' to browse them here."; },
-    experience: function(){ return "DevOps Engineer – Cyber Security @ TCS (Dec 2025–Present) · Cybersecurity Intern @ Acmegrade (Jan–Mar 2024) · B.Sc. Computer Science, Shankar Narayan College (2022–2025) · TryHackMe CTF practice · Google Cybersecurity Professional Certificate · Cisco Ethical Hacker Certification · Top 100, TCS HackQuest Season 9"; },
+    experience: function(){ return "DevOps Engineer – Cyber Security @ TCS (Dec 2025–Present) · Cybersecurity Intern @ Acmegrade (Jan–Mar 2024) · B.Sc. Computer Science, Shankar Narayan College (2022–2025) · TryHackMe CTF practice · Accelerate Development with Antigravity (Google Cloud Security) · Ethical Hacker (Cisco) · Google AI Essentials V1 (Coursera) · Google Cybersecurity Professional Certificate V2 · Top 100, TCS HackQuest Season 9"; },
     contact: function(){ return "Email: vishwakarma.harsh.office@gmail.com\nGitHub: github.com/H4R5787\nLinkedIn: linkedin.com/in/harsh-vishwakarma-b88ab4410"; },
     clear: function(){ termOut.innerHTML=''; return null; }
   };
@@ -142,8 +242,8 @@
   var vfs = {
     type: 'dir',
     children: {
-      'about.txt': { type:'file', content:"Full-time DevOps Engineer – Cyber Security at TCS.\nFocused on DAST, Veracode, and application security for banking & financial applications." },
-      'skills.txt': { type:'file', content:"DAST · Veracode · API Security Testing · MFA/SSO Testing\nPython · Bash · Selenium · Git & CI/CD · Linux (Ubuntu, Kali) · Burp Suite · Nmap" },
+      'about.txt': { type:'file', content:"DevOps Engineer – Cyber Security at Tata Consultancy Services (TCS).\nEducation: B.Sc. Computer Science (Graduated 2025, CGPA: 8.1).\nFocused on enterprise DAST, Veracode platform onboarding, and application security for banking & financial systems." },
+      'skills.txt': { type:'file', content:"[Cybersecurity]\nApplication Security · Ethical Hacking · Penetration Testing · API Security · Vulnerability Assessment · Network Security · DAST · SAST\n\n[Security Tools]\nBurp Suite · Metasploit · Wireshark · Nmap · OWASP ZAP · FFUF · Amass · Subfinder · Veracode\n\n[Programming & Dev]\nPython · Bash · SQL · HTML · CSS · JavaScript\n\n[Frameworks & Tech]\nFlask · Bootstrap · Selenium · MySQL · Firebase\n\n[DevOps & Infrastructure]\nGit · CI/CD · Linux · Cloud Security" },
       'experience.txt': { type:'file', content:"DevOps Engineer – Cyber Security, TCS (Dec 2025–Present)\nCybersecurity Intern, Acmegrade (Jan–Mar 2024)\nB.Sc. Computer Science, Shankar Narayan College of Arts & Commerce (2022–2025)\nTop 100, TCS HackQuest Season 9" },
       'contact.txt': { type:'file', content:"vishwakarma.harsh.office@gmail.com\ngithub.com/H4R5787\nlinkedin.com/in/harsh-vishwakarma-b88ab4410" },
       'resume.pdf': { type:'file', content:"[binary file — email me for a current copy: vishwakarma.harsh.office@gmail.com]" },
@@ -161,8 +261,10 @@
       'certifications': {
         type:'dir',
         children:{
-          'google-cybersecurity.txt': { type:'file', content:"Google Cybersecurity Professional Certificate." },
-          'cisco-ethical-hacker.txt': { type:'file', content:"Cisco Ethical Hacker Certification." },
+          'antigravity.txt': { type:'file', content:"Accelerate Development with Antigravity — Google Cloud Security (October 2026)\nCredential ID: a271c399-2a69-4503-9d0a-9bf2349889ae\nSkills: Application Development, Software Development, Agent Development\nURL: https://www.credly.com/badges/a271c399-2a69-4503-9d0a-9bf2349889ae/public_url" },
+          'ethical-hacker.txt': { type:'file', content:"Ethical Hacker — Cisco (July 2024)\nCredential ID: 48f7155e-24b8-474b-a40b-a64a989dd442\nSkills: Ethical Hacking, Exploiting Applications, Exploiting Networks\nURL: https://www.credly.com/badges/48f7155e-24b8-474b-a40b-a64a989dd442/public_url" },
+          'google-ai-essentials.txt': { type:'file', content:"Google AI Essentials V1 — Coursera (February 2025)\nCredential ID: 5261410e-9e0c-4164-a9b8-fcbd2bf9982d\nSkills: Augment Tasks with AI, Critical Thinking, Evaluate AI Tools\nURL: https://www.credly.com/badges/5261410e-9e0c-4164-a9b8-fcbd2bf9982d/public_url" },
+          'google-cybersecurity-v2.txt': { type:'file', content:"Google Cybersecurity Professional Certificate V2 — Coursera (July 2024)\nCredential ID: 59287505-a66b-4c32-93c5-55365566eb33\nSkills: Network Security, Python (Programming Language), Linux\nURL: https://www.credly.com/badges/59287505-a66b-4c32-93c5-55365566eb33/public_url" },
           'tcs-hackquest.txt': { type:'file', content:"Top 100 rank, TCS HackQuest Season 9 — India's leading cybersecurity competition." }
         }
       }
@@ -1193,12 +1295,53 @@
     }
   };
 
-  document.querySelectorAll('.play-card').forEach(function(card){
-    card.addEventListener('click', function(){
+  var playGrid = document.getElementById('playGrid');
+  if(playGrid){
+    playGrid.addEventListener('click', function(e){
+      var card = e.target.closest('.play-card');
+      if(!card) return;
       stopLoop();
       var game = card.dataset.game;
       if(starters[game]) starters[game]();
     });
+    playGrid.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){
+        var card = e.target.closest('.play-card');
+        if(card){
+          e.preventDefault();
+          stopLoop();
+          var game = card.dataset.game;
+          if(starters[game]) starters[game]();
+        }
+      }
+    });
+  } else {
+    document.querySelectorAll('.play-card').forEach(function(card){
+      card.addEventListener('click', function(){
+        stopLoop();
+        var game = card.dataset.game;
+        if(starters[game]) starters[game]();
+      });
+    });
+  }
+
+  // Mobile Touch D-Pad Controls for Canvas Games
+  var dpadButtons = document.querySelectorAll('[data-dpad]');
+  dpadButtons.forEach(function(btn){
+    function triggerDpad(e){
+      e.preventDefault();
+      var key = btn.getAttribute('data-dpad');
+      if(!key) return;
+      if(typeof keyHandler === 'function'){
+        keyHandler({ key: key, preventDefault: function(){} });
+      }
+      try {
+        var keyEvt = new KeyboardEvent('keydown', { key: key, bubbles: true });
+        document.dispatchEvent(keyEvt);
+      } catch(err){}
+    }
+    btn.addEventListener('touchstart', triggerDpad, { passive: false });
+    btn.addEventListener('mousedown', triggerDpad);
   });
 
   /* ============ Contact Section: UI/UX Enhancements ============ */

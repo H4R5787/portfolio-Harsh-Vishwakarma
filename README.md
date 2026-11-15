@@ -249,8 +249,10 @@ The terminal subsystem operates as a sandboxed REPL (Read-Eval-Print Loop) backe
 │   ├── social-pipeline.txt
 │   └── mini_os.txt
 └── certifications/
-    ├── google-cybersecurity.txt
-    ├── cisco-ethical-hacker.txt
+    ├── antigravity.txt
+    ├── ethical-hacker.txt
+    ├── google-ai-essentials.txt
+    ├── google-cybersecurity-v2.txt
     └── tcs-hackquest.txt
 ```
 

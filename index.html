@@ -8,6 +8,22 @@
 <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Pre-render theme initialization script to prevent theme flash (FOUC) -->
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('portfolio-theme') || localStorage.getItem('theme');
+      var theme = saved;
+      if (!theme) {
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        theme = prefersDark ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+</script>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -34,12 +50,42 @@
         </div>
       </div>
     </nav>
-    <a class="topbar-cta" href="#contact">Contact →</a>
-    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobile-drawer" aria-label="Open menu">☰</button>
+    <div class="topbar-actions">
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to light mode" title="Switch to light mode">
+        <span class="theme-toggle-icon-wrap" aria-hidden="true">
+          <!-- Sun Icon (Active in Light Mode) -->
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+          <!-- Moon Icon (Active in Dark Mode) -->
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+        </span>
+      </button>
+      <a class="topbar-cta" href="#contact">Contact →</a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobile-drawer" aria-label="Open menu">☰</button>
+    </div>
   </div>
 </header>
 
 <div id="mobile-drawer">
+  <div class="drawer-theme-row">
+    <span class="drawer-theme-label">Appearance</span>
+    <button type="button" class="drawer-theme-btn" id="drawerThemeToggle" aria-label="Toggle theme">
+      <span class="drawer-theme-icon-wrap" aria-hidden="true">
+        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+        </svg>
+        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+        </svg>
+      </span>
+      <span class="drawer-theme-text" id="drawerThemeText">Dark Mode</span>
+    </button>
+  </div>
   <a href="#home" data-route="home">Home</a>
   <a href="#about" data-route="about">About</a>
   <a href="#skills" data-route="skills">Skills</a>
@@ -77,54 +123,690 @@
 
   <!-- ABOUT -->
   <section class="page" id="page-about" data-route="about">
-    <div class="section-head">
-      <div class="kicker">About</div>
-      <h2>Who I am</h2>
+    <div class="section-head about-section-head">
+      <div class="kicker">// PROFILE &amp; PHILOSOPHY</div>
+      <h2>Who I Am<span class="accent">.</span></h2>
+      <p class="about-lead">DevOps Engineer specializing in application security testing, automated vulnerability validation, and resilient systems design.</p>
     </div>
-    <div class="about-grid">
-      <div class="avatar">HV</div>
-      <div class="about-copy">
-        <p>I'm a computer science graduate currently working full-time as a DevOps Engineer – Cyber Security at Tata Consultancy Services (TCS), where I focus on application security testing for enterprise banking and financial applications. I like tackling hard problems and building things that are secure and dependable rather than just functional.</p>
-        <p>Alongside my role, I keep going deeper on offensive security — working through TryHackMe challenges, building security tooling, and generally trying to break my own code before someone else does.</p>
-        <ul class="focus-list">
-          <li>Penetration testing &amp; web application security</li>
-          <li>Python automation &amp; backend development</li>
-          <li>Full-stack development with Flask</li>
-          <li>Network security analysis</li>
-          <li>CTF challenges (TryHackMe)</li>
-        </ul>
+
+    <!-- Main Split Grid: Narrative & Developer Composition -->
+    <div class="about-hero-grid">
+      <!-- Left Side: Narrative & Identity -->
+      <div class="about-narrative">
+        <h3 class="about-story-title">Breaking code responsibly, building systems that endure.</h3>
+
+        <p class="about-story-p">
+          I'm a computer science graduate currently working as a <strong>DevOps Engineer – Cyber Security</strong> at <strong>Tata Consultancy Services (TCS)</strong>, where I support enterprise-scale application security initiatives for premier banking and financial systems. My day-to-day work centers on <em>Dynamic Application Security Testing (DAST)</em>, Veracode platform onboarding, and validating complex authentication workflows including MFA and SSO integrations.
+        </p>
+
+        <p class="about-story-p">
+          My technical journey is driven by an obsession with understanding how complex architectures function and defend against compromise. My core competencies span <strong>DevOps</strong> pipelines, <strong>Cybersecurity</strong> assessments, <strong>Cloud Technologies</strong>, <strong>Automation</strong>, and <strong>Software Development</strong>. I believe security must be an active, automated discipline embedded throughout development rather than an afterthought.
+        </p>
+
+        <p class="about-story-p">
+          Beyond enterprise scanning, I dive deep into systems engineering and offensive testing—designing a freestanding kernel in Rust (<em>HarshOS</em>), engineering automated malware analysis pipelines with Python and Llama&nbsp;3, and competing in capture-the-flag competitions on TryHackMe.
+        </p>
+
+        <div class="about-actions-row">
+          <a href="#contact" class="btn btn-primary btn-sm">Let's Connect →</a>
+          <a href="#projects" class="btn btn-secondary btn-sm">Featured Work</a>
+          <div class="about-social-pills">
+            <a href="https://github.com/H4R5787" target="_blank" rel="noopener noreferrer" class="about-social-link" title="GitHub Profile" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" class="social-svg" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" fill="currentColor"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/harsh-vishwakarma-b88ab4410" target="_blank" rel="noopener noreferrer" class="about-social-link" title="LinkedIn Profile" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" class="social-svg" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9h2.76v8.37H6.46V10.9M7.84 6.2a1.62 1.62 0 1 0 0 3.24 1.62 1.62 0 0 0 0-3.24z" fill="currentColor"/></svg>
+            </a>
+            <a href="mailto:vishwakarma.harsh.office@gmail.com" class="about-social-link" title="Direct Email" aria-label="Email">
+              <svg viewBox="0 0 24 24" class="social-svg" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side: Developer Visual Composition -->
+      <div class="about-visual-col">
+        <div class="developer-card">
+          <div class="developer-card-top">
+            <div class="avatar-badge">
+              <span class="avatar-initials">HV</span>
+              <span class="avatar-ring"></span>
+            </div>
+            <div class="developer-card-status">
+              <span class="pulse-beacon" aria-hidden="true"></span>
+              <span class="status-label">Active @ TCS (DevOps Security)</span>
+            </div>
+          </div>
+
+          <!-- Interactive Terminal Card Component -->
+          <div class="developer-terminal">
+            <div class="dev-term-header">
+              <div class="term-dots">
+                <span class="term-dot close"></span>
+                <span class="term-dot min"></span>
+                <span class="term-dot max"></span>
+              </div>
+              <span class="dev-term-title">harsh@tcs-sec-mesh:~</span>
+            </div>
+            <pre class="dev-term-code"><code><span class="token-kw">const</span> engineer = {
+  <span class="token-key">name</span>: <span class="token-str">"Harsh Vishwakarma"</span>,
+  <span class="token-key">role</span>: <span class="token-str">"DevOps Engineer – Cyber Security"</span>,
+  <span class="token-key">organization</span>: <span class="token-str">"Tata Consultancy Services"</span>,
+  <span class="token-key">education</span>: <span class="token-str">"B.Sc. Computer Science (2025)"</span>,
+  <span class="token-key">cgpa</span>: <span class="token-num">8.1</span>,
+  <span class="token-key">domains</span>: [
+    <span class="token-str">"DAST"</span>, <span class="token-str">"Veracode"</span>, <span class="token-str">"CI/CD"</span>, <span class="token-str">"CloudSec"</span>
+  ]
+};</code></pre>
+          </div>
+
+          <!-- Minimal Floating Technology Chips -->
+          <div class="floating-tech-badges">
+            <div class="float-chip">
+              <span class="chip-dot accent"></span>
+              <span>DAST &amp; Veracode</span>
+            </div>
+            <div class="float-chip">
+              <span class="chip-dot cyan"></span>
+              <span>CI/CD Automation</span>
+            </div>
+            <div class="float-chip">
+              <span class="chip-dot amber"></span>
+              <span>Cloud &amp; Linux</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Academic & Professional Background Matrix -->
+    <div class="about-stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 24 24" class="stat-svg" fill="none">
+            <rect x="2" y="7" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" stroke="currentColor" stroke-width="1.8"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-val">TCS</div>
+          <div class="stat-label">DevOps Engineer</div>
+          <div class="stat-sub">Enterprise DAST &amp; Banking AppSec</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 24 24" class="stat-svg" fill="none">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5" stroke="currentColor" stroke-width="1.8"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-val">B.Sc. CS</div>
+          <div class="stat-label">Class of 2025</div>
+          <div class="stat-sub">Graduated with 8.1 CGPA</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 24 24" class="stat-svg" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-val">Top 100</div>
+          <div class="stat-label">TCS HackQuest Season 9</div>
+          <div class="stat-sub">Vulnerability Assessment Honor</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 24 24" class="stat-svg" fill="none">
+            <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-val">4+ Credentials</div>
+          <div class="stat-label">Google &amp; Cisco Certified</div>
+          <div class="stat-sub">Security, AI &amp; Cloud Badges</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Areas of Interest -->
+    <div class="about-subhead">
+      <div class="kicker">// TECHNICAL DOMAINS</div>
+      <h3>Core Areas of Interest<span class="accent">.</span></h3>
+    </div>
+
+    <div class="interests-grid">
+      <div class="interest-card">
+        <div class="interest-head">
+          <div class="interest-icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M7 8a4 4 0 1 0 0 8c2.4 0 4.2-1.9 5.5-3.8C13.8 10.3 15.6 8 18 8a4 4 0 1 1 0 8c-2.4 0-4.2-1.9-5.5-3.8C11.2 10.3 9.4 8 7 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h4 class="interest-title">DevOps Engineering</h4>
+        </div>
+        <p class="interest-desc">
+          Continuous integration &amp; delivery, Git workflow automation, pipeline security gates, and resilient deployment infrastructure.
+        </p>
+      </div>
+
+      <div class="interest-card">
+        <div class="interest-head">
+          <div class="interest-icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L4 5.5V11c0 5.2 3.4 10.1 8 11.3 4.6-1.2 8-6.1 8-11.3V5.5L12 2z" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 9v3l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h4 class="interest-title">Cybersecurity &amp; AppSec</h4>
+        </div>
+        <p class="interest-desc">
+          Dynamic application security testing (DAST), API security audits, OWASP Top 10 mitigation, and offensive penetration testing.
+        </p>
+      </div>
+
+      <div class="interest-card">
+        <div class="interest-head">
+          <div class="interest-icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M19 16.5a4.5 4.5 0 0 0-1.5-8.7 6 6 0 0 0-11 2A4.5 4.5 0 0 0 7 18.5h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <rect x="13" y="14" width="8" height="6" rx="1.5" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <h4 class="interest-title">Cloud Security</h4>
+        </div>
+        <p class="interest-desc">
+          Multi-tenant cloud protection, identity &amp; access governance, MFA/SSO authentication troubleshooting, and compliance posture.
+        </p>
+      </div>
+
+      <div class="interest-card">
+        <div class="interest-head">
+          <div class="interest-icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <rect x="2" y="3" width="20" height="18" rx="3" stroke="currentColor" stroke-width="2"/>
+              <path d="M6 8l4 4-4 4M13 16h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h4 class="interest-title">Security Automation</h4>
+        </div>
+        <p class="interest-desc">
+          Custom Python scripting, API-driven threat monitoring, automated vulnerability triaging, and repetitive assessment elimination.
+        </p>
+      </div>
+
+      <div class="interest-card">
+        <div class="interest-head">
+          <div class="interest-icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h4 class="interest-title">Emerging Technologies</h4>
+        </div>
+        <p class="interest-desc">
+          Bare-metal kernel design in Rust (HarshOS), on-device machine learning with TensorFlow Lite, and intelligent AI security pipelines.
+        </p>
       </div>
     </div>
   </section>
 
   <!-- SKILLS -->
   <section class="page" id="page-skills" data-route="skills">
-    <div class="section-head">
-      <div class="kicker">Skills</div>
-      <h2>What I work with</h2>
+    <div class="section-head skills-section-head">
+      <div class="kicker">// TECHNICAL TOOLKIT</div>
+      <h2>What I work with<span class="accent">.</span></h2>
+      <p class="skills-lead">A comprehensive matrix of security testing methodologies, offensive tooling, development stacks, and infrastructure automated for enterprise reliability.</p>
     </div>
-    <div class="skill-groups">
-      <div class="skill-group">
-        <h3>Security tooling</h3>
-        <div class="chip-row">
-          <span class="chip">Metasploit</span><span class="chip">Burp Suite</span><span class="chip">Wireshark</span>
-          <span class="chip">Nmap</span><span class="chip">OWASP ZAP</span>
+
+    <div class="skills-grid">
+      <!-- 1. Cybersecurity -->
+      <div class="skills-card" data-cat="cyber">
+        <div class="skills-card-header">
+          <div class="cat-icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L3 6v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V6l-9-4z" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 8v4l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="skills-cat-meta">
+            <div class="skills-cat-top">
+              <h3 class="skills-cat-title">Cybersecurity</h3>
+              <span class="skills-count-pill">8 Disciplines</span>
+            </div>
+            <p class="skills-cat-subtitle">Core security domains, offensive assessments, and defensive validation</p>
+          </div>
+        </div>
+        <div class="skills-badges-wrap">
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L4 5.5V11c0 5.2 3.4 10.1 8 11.3 4.6-1.2 8-6.1 8-11.3V5.5L12 2z" stroke="#39FF6A" stroke-width="1.8" fill="rgba(57, 255, 106, 0.12)"/>
+                <rect x="9" y="11" width="6" height="5" rx="1" stroke="#39FF6A" stroke-width="1.5"/>
+                <path d="M10 11V9a2 2 0 0 1 4 0v2" stroke="#39FF6A" stroke-width="1.5"/>
+              </svg>
+            </span>
+            <span>Application Security</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 3a8 8 0 0 0-8 8c0 3 1.7 5.7 4.2 7.1V20c0 .6.4 1 1 1h5.6c.6 0 1-.4 1-1v-1.9c2.5-1.4 4.2-4.1 4.2-7.1a8 8 0 0 0-8-8z" stroke="#39FF6A" stroke-width="1.8" fill="rgba(57, 255, 106, 0.12)"/>
+                <circle cx="9" cy="11.5" r="1.5" fill="#39FF6A"/>
+                <circle cx="15" cy="11.5" r="1.5" fill="#39FF6A"/>
+                <path d="M10 16h4" stroke="#39FF6A" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span>Ethical Hacking</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="#FF5C7A" stroke-width="1.8"/>
+                <circle cx="12" cy="12" r="5" stroke="#FF5C7A" stroke-width="1.8"/>
+                <circle cx="12" cy="12" r="2" fill="#FF5C7A"/>
+                <path d="M12 1v4M12 19v4M1 12h4M19 12h4" stroke="#FF5C7A" stroke-width="1.8"/>
+              </svg>
+            </span>
+            <span>Penetration Testing</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="4" width="7" height="6" rx="1.5" stroke="#4FD1FF" stroke-width="1.8"/>
+                <rect x="14" y="4" width="7" height="6" rx="1.5" stroke="#4FD1FF" stroke-width="1.8"/>
+                <rect x="8.5" y="14" width="7" height="6" rx="1.5" stroke="#4FD1FF" stroke-width="1.8"/>
+                <path d="M6.5 10v2a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2v-2M12 10v4" stroke="#4FD1FF" stroke-width="1.8"/>
+              </svg>
+            </span>
+            <span>API Security Testing</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="#FFC24B" stroke-width="1.8"/>
+                <path d="M12 12l6-6M8 12a4 4 0 0 1 7.2-2.4" stroke="#FFC24B" stroke-width="1.8" stroke-linecap="round"/>
+                <circle cx="12" cy="12" r="1.5" fill="#FFC24B"/>
+              </svg>
+            </span>
+            <span>Vulnerability Assessment</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="5" r="3" stroke="#4FD1FF" stroke-width="1.8"/>
+                <circle cx="5" cy="18" r="3" stroke="#4FD1FF" stroke-width="1.8"/>
+                <circle cx="19" cy="18" r="3" stroke="#4FD1FF" stroke-width="1.8"/>
+                <path d="M10 7.5L6.5 15.5M14 7.5l3.5 8M8 18h8" stroke="#4FD1FF" stroke-width="1.8"/>
+              </svg>
+            </span>
+            <span>Network Security</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M21 12a9 9 0 1 1-3.2-7L21 8M21 3v5h-5" stroke="#39FF6A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 12l2 2 4-4" stroke="#39FF6A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span>DAST</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="#4FD1FF" stroke-width="1.8"/>
+                <path d="M14 2v6h6M8 13h8M8 17h5" stroke="#4FD1FF" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span>SAST</span>
+          </div>
         </div>
       </div>
-      <div class="skill-group">
-        <h3>Development</h3>
-        <div class="chip-row">
-          <span class="chip">Python</span><span class="chip">Flask</span><span class="chip">HTML/CSS</span>
-          <span class="chip">Bootstrap</span><span class="chip">Bash</span><span class="chip">SQL</span>
-          <span class="chip">Git / GitHub</span>
+
+      <!-- 2. Security Tools -->
+      <div class="skills-card" data-cat="tools">
+        <div class="skills-card-header">
+          <div class="cat-icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 3v3M12 18v3M3 12h3M18 12h3M8 12a4 4 0 0 1 8 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="skills-cat-meta">
+            <div class="skills-cat-top">
+              <h3 class="skills-cat-title">Security Tools</h3>
+              <span class="skills-count-pill">9 Platforms</span>
+            </div>
+            <p class="skills-cat-subtitle">Industry-standard platforms for dynamic analysis, fuzzing, &amp; recon</p>
+          </div>
+        </div>
+        <div class="skills-badges-wrap">
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M9 2h6v4l5 10.5A3.5 3.5 0 0 1 16.8 22H7.2A3.5 3.5 0 0 1 4 16.5L9 6V2z" stroke="#FF7A00" stroke-width="1.8" fill="rgba(255, 122, 0, 0.15)"/>
+                <path d="M8 15h8M9.5 11h5" stroke="#FF7A00" stroke-width="1.5"/>
+              </svg>
+            </span>
+            <span>Burp Suite</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 3l8 17L20 3l-4 7-4-4-4 4L4 3z" fill="#1877F2"/>
+                <path d="M12 6l3 5-3 5-3-5 3-5z" fill="#0D53B7"/>
+              </svg>
+            </span>
+            <span>Metasploit</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M2 19c3-1 6-1 9 1s6 2 11 0c-4-6-6-14-10-14-1 4-3 9-10 13z" fill="#1389D6"/>
+                <path d="M2 19h20" stroke="#4FD1FF" stroke-width="1.8"/>
+              </svg>
+            </span>
+            <span>Wireshark</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="#39FF6A" stroke-width="1.8"/>
+                <path d="M12 3a9 9 0 0 1 9 9" stroke="#39FF6A" stroke-width="2.6" stroke-linecap="round"/>
+                <circle cx="12" cy="12" r="4" stroke="#39FF6A" stroke-width="1.8"/>
+                <circle cx="12" cy="12" r="1.5" fill="#39FF6A"/>
+              </svg>
+            </span>
+            <span>Nmap</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L4 5.5v5.5c0 5.5 3.8 10.5 8 12 4.2-1.5 8-6.5 8-12V5.5L12 2z" stroke="#005EA6" stroke-width="1.8" fill="rgba(0, 94, 166, 0.15)"/>
+                <path d="M13 7l-4 5h4l-1 5 5-6h-4l1-4h-1z" fill="#39FF6A"/>
+              </svg>
+            </span>
+            <span>OWASP ZAP</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect width="24" height="24" rx="4" fill="#1A2030" stroke="#FF5C7A" stroke-width="1.5"/>
+                <path d="M13 3L4 14h7l-2 7 11-12h-7l2-6z" fill="#FF5C7A"/>
+              </svg>
+            </span>
+            <span>FFUF</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="#4FD1FF" stroke-width="1.8"/>
+                <ellipse cx="12" cy="12" rx="4" ry="9" stroke="#4FD1FF" stroke-width="1.8"/>
+                <path d="M3 12h18M4.5 7h15M4.5 17h15" stroke="#4FD1FF" stroke-width="1.5"/>
+              </svg>
+            </span>
+            <span>Amass</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <circle cx="10.5" cy="10.5" r="6.5" stroke="#39FF6A" stroke-width="1.8"/>
+                <path d="M15.5 15.5L20 20M8 10.5h5M10.5 8v5" stroke="#39FF6A" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span>Subfinder</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M3 4l9 16L21 4h-4.5l-4.5 9.5L7.5 4H3z" fill="#00B4D8"/>
+              </svg>
+            </span>
+            <span>Veracode</span>
+          </div>
         </div>
       </div>
-      <div class="skill-group">
-        <h3>Data &amp; infrastructure</h3>
-        <div class="chip-row">
-          <span class="chip">MySQL</span><span class="chip">Firebase</span><span class="chip">TensorFlow Lite</span>
-          <span class="chip">AI / ML APIs</span><span class="chip">Kali Linux</span><span class="chip">Ubuntu</span>
-          <span class="chip">Windows</span>
+
+      <!-- 3. Programming & Development -->
+      <div class="skills-card" data-cat="dev">
+        <div class="skills-card-header">
+          <div class="cat-icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M8 6L2 12l6 6M16 6l6 6-6 6M14 4l-4 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="skills-cat-meta">
+            <div class="skills-cat-top">
+              <h3 class="skills-cat-title">Programming &amp; Development</h3>
+              <span class="skills-count-pill">6 Languages</span>
+            </div>
+            <p class="skills-cat-subtitle">Core languages &amp; scripting for engineering, tooling, and backend services</p>
+          </div>
+        </div>
+        <div class="skills-badges-wrap">
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M11.9 2c-4.1 0-4.1 1.8-4.1 1.8v2.2h4.2v.6H4.8S2 6.4 2 10.7c0 4.2 2.4 4.1 2.4 4.1h1.5v-2.2s-.1-2.4 2.4-2.4h4.1s2.3 0 2.3-2.3V4.2S15 2 11.9 2zm-1.8 1.4a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z" fill="#4B8BBE"/>
+                <path d="M12.1 22c4.1 0 4.1-1.8 4.1-1.8v-2.2H12v-.6h7.2s2.8.2 2.8-4.1c0-4.2-2.4-4.1-2.4-4.1h-1.5v2.2s.1 2.4-2.4 2.4H9.6s-2.3 0-2.3 2.3v3.7s-.3 2.2 4.8 2.2zm1.8-1.4a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z" fill="#FFD438"/>
+              </svg>
+            </span>
+            <span>Python</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="3" width="20" height="18" rx="3" fill="#1A2030" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M6 8l4 4-4 4M13 16h5" stroke="#39FF6A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span>Bash</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <ellipse cx="12" cy="5" rx="8" ry="2.5" stroke="#4FD1FF" stroke-width="1.8"/>
+                <path d="M4 5v14c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5V5M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5" stroke="#4FD1FF" stroke-width="1.8"/>
+              </svg>
+            </span>
+            <span>SQL</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 2l1.5 16.5L12 21l6.5-2.5L20 2H4z" fill="#E44D26"/>
+                <path d="M12 4v15.2l4.8-1.8L18 4H12z" fill="#F16529"/>
+                <path d="M7.5 7h9l-.2 2.5h-6.4l.2 2.4h6l-.5 5.5L12 18.4l-3.6-1-.2-2.4h2.2l.1 1.1 1.5.4 1.5-.4.2-2.2H7.2L7.5 7z" fill="#fff"/>
+              </svg>
+            </span>
+            <span>HTML</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 2l1.5 16.5L12 21l6.5-2.5L20 2H4z" fill="#264DE4"/>
+                <path d="M12 4v15.2l4.8-1.8L18 4H12z" fill="#2965F1"/>
+                <path d="M7.5 7h9l-.2 2.5h-6.4l.2 2.4h6l-.5 5.5L12 18.4l-3.6-1-.2-2.4h2.2l.1 1.1 1.5.4 1.5-.4.2-2.2H7.2L7.5 7z" fill="#fff"/>
+              </svg>
+            </span>
+            <span>CSS</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect width="24" height="24" rx="3" fill="#F7DF1E"/>
+                <path d="M6 18.5c0-.8.6-1.5 1.5-1.5h1.5v-6h2v7.5c0 1.7-1.3 3-3 3H7c-1 0-1-.8-1-1.5v-1.5zm8.5-5.5c1.5 0 2.8.8 2.8 2.2 0 1.8-1.5 2.3-2.8 2.3-1.5 0-2.5-.5-2.8-1.5l1.6-.9c.2.6.7.9 1.3.9.6 0 1-.2 1-.6 0-.5-.4-.7-1.1-.9l-.6-.2c-1.3-.4-2-1.2-2-2.2 0-1.4 1.2-2.1 2.6-2.1 1.2 0 2.2.5 2.5 1.4l-1.5.9c-.2-.5-.6-.7-1-.7-.5 0-.8.2-.8.5 0 .4.4.6 1 .8l.8.3z" fill="#000"/>
+              </svg>
+            </span>
+            <span>JavaScript</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Frameworks & Technologies -->
+      <div class="skills-card" data-cat="frameworks">
+        <div class="skills-card-header">
+          <div class="cat-icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="skills-cat-meta">
+            <div class="skills-cat-top">
+              <h3 class="skills-cat-title">Frameworks &amp; Technologies</h3>
+              <span class="skills-count-pill">5 Technologies</span>
+            </div>
+            <p class="skills-cat-subtitle">Web stacks, automated testing suites, and persistent data engines</p>
+          </div>
+        </div>
+        <div class="skills-badges-wrap">
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M9 2h6v4l5 11a3 3 0 0 1-2.6 4H6.6A3 3 0 0 1 4 17l5-11V2z" stroke="#fff" stroke-width="1.8"/>
+                <path d="M8 15h8M10 11h4" stroke="#4FD1FF" stroke-width="1.5"/>
+              </svg>
+            </span>
+            <span>Flask</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect width="24" height="24" rx="5" fill="#7952B3"/>
+                <path d="M7 6h5.2a3 3 0 0 1 0 6H7V6zm0 6h5.8a3.2 3.2 0 0 1 0 6.4H7V12z" fill="#fff"/>
+              </svg>
+            </span>
+            <span>Bootstrap</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect width="24" height="24" rx="4" fill="#00B400"/>
+                <text x="12" y="17" font-size="12" font-weight="800" text-anchor="middle" fill="#fff" font-family="monospace">Se</text>
+              </svg>
+            </span>
+            <span>Selenium</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <ellipse cx="12" cy="6" rx="8" ry="3" stroke="#00758F" stroke-width="1.8" fill="rgba(0, 117, 143, 0.15)"/>
+                <path d="M4 6v6c0 1.6 3.6 3 8 3s8-1.4 8-3V6M4 12v6c0 1.6 3.6 3 8 3s8-1.4 8-3v-6" stroke="#F29111" stroke-width="1.8"/>
+              </svg>
+            </span>
+            <span>MySQL</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4.5 16.5L9 3.5l3.5 7L16 3.5l3.5 13-7.5 4.5-7.5-4.5z" fill="#FFA000"/>
+                <path d="M12 21l-3-6.5 6.5-4L12 21z" fill="#FFCA28"/>
+                <path d="M4.5 16.5l7.5 4.5-2.5-12z" fill="#F57C00"/>
+              </svg>
+            </span>
+            <span>Firebase</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. DevOps & Infrastructure (full-span on desktop) -->
+      <div class="skills-card full-span" data-cat="devops">
+        <div class="skills-card-header">
+          <div class="cat-icon-box" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="4" width="18" height="6" rx="2" stroke="currentColor" stroke-width="2"/>
+              <rect x="3" y="14" width="18" height="6" rx="2" stroke="currentColor" stroke-width="2"/>
+              <circle cx="7" cy="7" r="1" fill="currentColor"/>
+              <circle cx="7" cy="17" r="1" fill="currentColor"/>
+              <path d="M17 7h.01M17 17h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="skills-cat-meta">
+            <div class="skills-cat-top">
+              <h3 class="skills-cat-title">DevOps &amp; Infrastructure</h3>
+              <span class="skills-count-pill">4 Core Systems</span>
+            </div>
+            <p class="skills-cat-subtitle">Version control, automated pipelines, Linux administration, and enterprise cloud protection</p>
+          </div>
+        </div>
+        <div class="skills-badges-wrap">
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M21.5 10.8L13.2 2.5a1.8 1.8 0 0 0-2.5 0L8.2 5l3.2 3.2a2.1 2.1 0 0 1 2.6 2.6l3.1 3.1a2.1 2.1 0 1 1-1.3 1.3L12.7 12a2.1 2.1 0 0 1-2.4-.4L7.1 14.8a2.1 2.1 0 1 1-1.3-1.3l3.2-3.2a2.1 2.1 0 0 1 .4-2.4L6.2 4.7 2.5 8.4a1.8 1.8 0 0 0 0 2.5l8.3 8.3c.7.7 1.8.7 2.5 0l8.2-8.4a1.8 1.8 0 0 0 0-2.5z" fill="#F05032"/>
+              </svg>
+            </span>
+            <span>Git</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M7 8a4 4 0 1 0 0 8c2.4 0 4.2-1.9 5.5-3.8C13.8 10.3 15.6 8 18 8a4 4 0 1 1 0 8c-2.4 0-4.2-1.9-5.5-3.8C11.2 10.3 9.4 8 7 8z" stroke="#39FF6A" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="7" cy="12" r="1.5" fill="#39FF6A"/>
+                <circle cx="18" cy="12" r="1.5" fill="#39FF6A"/>
+              </svg>
+            </span>
+            <span>CI/CD</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C9.5 2 7.5 4.5 7.5 7.5v3c-1.5 1-2.5 3-2.5 5.5 0 3 2 5.5 5 5.5h4c3 0 5-2.5 5-5.5 0-2.5-1-4.5-2.5-5.5v-3C16.5 4.5 14.5 2 12 2z" stroke="#FFC24B" stroke-width="1.8" fill="rgba(255, 194, 75, 0.12)"/>
+                <circle cx="10" cy="7" r="1" fill="#FFC24B"/>
+                <circle cx="14" cy="7" r="1" fill="#FFC24B"/>
+                <path d="M10.5 10h3" stroke="#FFC24B" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M8 17s1 1 4 1 4-1 4-1" stroke="#FFC24B" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span>Linux</span>
+          </div>
+
+          <div class="skill-badge">
+            <span class="badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M19 16.5a4.5 4.5 0 0 0-1.5-8.7 6 6 0 0 0-11 2A4.5 4.5 0 0 0 7 18.5h4" stroke="#4FD1FF" stroke-width="1.8" stroke-linecap="round"/>
+                <rect x="13" y="14" width="8" height="6" rx="1.5" stroke="#39FF6A" stroke-width="1.8" fill="rgba(57, 255, 106, 0.15)"/>
+                <path d="M15 14v-2a2 2 0 0 1 4 0v2" stroke="#39FF6A" stroke-width="1.5"/>
+              </svg>
+            </span>
+            <span>Cloud Security</span>
+          </div>
         </div>
       </div>
     </div>
@@ -233,83 +915,368 @@
 
   <!-- EXPERIENCE -->
   <section class="page" id="page-experience" data-route="experience">
-    <div class="section-head">
-      <div class="kicker">Experience</div>
-      <h2>Path so far</h2>
+
+    <!-- Section Header -->
+    <div class="exp-section-header">
+      <div class="exp-header-left">
+        <div class="kicker">// PROFESSIONAL JOURNEY</div>
+        <h2 class="exp-main-title">Experience<span class="accent">.</span></h2>
+        <p class="exp-subtitle">Path So Far</p>
+      </div>
+      <div class="exp-header-stats">
+        <div class="exp-stat">
+          <span class="exp-stat-num">1+</span>
+          <span class="exp-stat-label">Year at TCS</span>
+        </div>
+        <div class="exp-stat-divider"></div>
+        <div class="exp-stat">
+          <span class="exp-stat-num">13+</span>
+          <span class="exp-stat-label">Tech Skills</span>
+        </div>
+        <div class="exp-stat-divider"></div>
+        <div class="exp-stat">
+          <span class="exp-stat-num">∞</span>
+          <span class="exp-stat-label">Learning</span>
+        </div>
+      </div>
     </div>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="meta">December 2025 – Present</div>
-        <h3>DevOps Engineer – Cyber Security · Tata Consultancy Services (TCS)</h3>
-        <p>Supporting enterprise application security initiatives for banking and financial sector applications, with a primary focus on Dynamic Application Security Testing (DAST) and application security validation using Veracode.</p>
 
-        <details class="xp-disclosure">
-          <summary>Key Responsibilities</summary>
-          <div class="xp-body">
-            <ul class="stack-list">
-              <li>Perform DAST on internal and external web applications.</li>
-              <li>Conduct security testing for API-based applications and REST services.</li>
-              <li>Configure and validate authentication mechanisms, including MFA, SSO, and custom login workflows.</li>
-              <li>Support onboarding of applications into the Veracode security testing platform.</li>
-              <li>Collaborate with application owners, developers, DevOps teams, and security stakeholders on assessments.</li>
-              <li>Analyze scan results and help teams understand findings and remediation recommendations.</li>
-              <li>Troubleshoot authentication challenges during automated security testing.</li>
-              <li>Support cybersecurity compliance and application security initiatives across enterprise environments.</li>
-            </ul>
+    <!-- Premium Timeline -->
+    <div class="exp-timeline" id="expTimeline">
+
+      <!-- === TCS Entry === -->
+      <div class="exp-entry exp-entry--current" data-index="0">
+        <div class="exp-entry-spine">
+          <div class="exp-node exp-node--active">
+            <div class="exp-node-ring"></div>
+            <div class="exp-node-dot"></div>
           </div>
-        </details>
+          <div class="exp-connector"></div>
+        </div>
 
-        <details class="xp-disclosure">
-          <summary>Technical Skills</summary>
-          <div class="xp-body">
-            <div class="chip-row">
-              <span class="chip">DAST</span><span class="chip">Veracode</span><span class="chip">API Security Testing</span>
-              <span class="chip">MFA / SSO Testing</span><span class="chip">Python</span>
-              <span class="chip">Bash Scripting</span><span class="chip">Selenium</span><span class="chip">Git &amp; CI/CD</span>
-              <span class="chip">Linux (Ubuntu, Kali)</span><span class="chip">Burp Suite</span><span class="chip">Nmap</span>
-              <span class="chip">OWASP Top 10</span><span class="chip">Vulnerability Assessment</span>
+        <div class="exp-card">
+          <!-- Card Header -->
+          <div class="exp-card-header">
+            <div class="exp-logo-wrap" aria-hidden="true">
+              <svg viewBox="0 0 36 36" fill="none" class="exp-logo-svg">
+                <rect width="36" height="36" rx="8" fill="var(--accent-dim)"/>
+                <text x="18" y="24" text-anchor="middle" font-family="monospace" font-weight="700" font-size="13" fill="var(--accent)">TCS</text>
+              </svg>
+            </div>
+            <div class="exp-card-meta">
+              <div class="exp-company-row">
+                <h3 class="exp-company">Tata Consultancy Services</h3>
+                <span class="exp-status-badge exp-status-badge--active">
+                  <span class="exp-status-dot"></span>Current
+                </span>
+              </div>
+              <div class="exp-role">DevOps Engineer – Cyber Security</div>
+              <div class="exp-details-row">
+                <span class="exp-detail-pill">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  Dec 2025 – Present
+                </span>
+                <span class="exp-detail-pill">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  Mumbai, India
+                </span>
+                <span class="exp-detail-pill exp-detail-pill--type">Full-time</span>
+              </div>
             </div>
           </div>
-        </details>
 
-        <details class="xp-disclosure">
-          <summary>Additional Experience</summary>
-          <div class="xp-body">
-            <ul class="stack-list">
-              <li>Developed a Virus Detection System using the VirusTotal API, Flask, and MySQL.</li>
-              <li>Hands-on experience with Burp Suite, Wireshark, Metasploit, Nmap, FFUF, Amass, and Subfinder.</li>
-              <li>Completed the Google Cybersecurity Professional Certificate.</li>
-              <li>Earned the Cisco Ethical Hacker certification.</li>
-              <li>Strong interest in Cloud Security, Application Security, and Security Automation.</li>
-            </ul>
+          <!-- Description -->
+          <p class="exp-desc">Supporting enterprise application security initiatives for premier banking &amp; financial sector clients. Primary focus on Dynamic Application Security Testing (DAST) and application security validation using Veracode at scale.</p>
+
+          <!-- Responsibilities -->
+          <div class="exp-section-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Key Responsibilities
           </div>
-        </details>
+          <ul class="exp-resp-list">
+            <li>Perform DAST on internal and external web applications for enterprise banking systems.</li>
+            <li>Security testing for API-based applications and REST services.</li>
+            <li>Configure &amp; validate authentication flows — MFA, SSO, custom login workflows.</li>
+            <li>Onboard applications into the Veracode platform; analyze scan results and advise remediation.</li>
+            <li>Collaborate with DevOps teams, app owners, and security stakeholders on assessments.</li>
+            <li>Support cybersecurity compliance initiatives across enterprise environments.</li>
+          </ul>
+
+          <!-- Tech Stack -->
+          <div class="exp-section-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Tools &amp; Technologies
+          </div>
+          <div class="exp-tech-tags">
+            <span class="exp-tag exp-tag--primary">DAST</span>
+            <span class="exp-tag exp-tag--primary">Veracode</span>
+            <span class="exp-tag">API Security</span>
+            <span class="exp-tag">Burp Suite</span>
+            <span class="exp-tag">OWASP Top 10</span>
+            <span class="exp-tag">MFA / SSO</span>
+            <span class="exp-tag">Python</span>
+            <span class="exp-tag">Bash</span>
+            <span class="exp-tag">Selenium</span>
+            <span class="exp-tag">Git &amp; CI/CD</span>
+            <span class="exp-tag">Nmap</span>
+            <span class="exp-tag">Linux</span>
+            <span class="exp-tag">Vuln Assessment</span>
+          </div>
+        </div>
       </div>
-      <div class="timeline-item">
-        <div class="meta">January 2024 – March 2024</div>
-        <h3>Cybersecurity Intern · <a class="job-link" href="https://acmegrade.com" target="_blank" rel="noopener">Acmegrade</a></h3>
-        <ul class="stack-list">
-          <li>Gained hands-on experience with the Cyber Kill Chain and its stages.</li>
-          <li>Studied and analyzed various types of cyber attacks and hacker profiles.</li>
-          <li>Conducted web penetration testing to identify vulnerabilities in web applications.</li>
-          <li>Performed network scanning to detect potential security threats.</li>
-          <li>Created and tested payloads for vulnerability assessment and penetration testing.</li>
-        </ul>
+
+      <!-- === Acmegrade Internship === -->
+      <div class="exp-entry" data-index="1">
+        <div class="exp-entry-spine">
+          <div class="exp-node">
+            <div class="exp-node-dot"></div>
+          </div>
+          <div class="exp-connector"></div>
+        </div>
+
+        <div class="exp-card">
+          <div class="exp-card-header">
+            <div class="exp-logo-wrap" aria-hidden="true">
+              <svg viewBox="0 0 36 36" fill="none" class="exp-logo-svg">
+                <rect width="36" height="36" rx="8" fill="var(--accent-2-dim)"/>
+                <text x="18" y="24" text-anchor="middle" font-family="monospace" font-weight="700" font-size="12" fill="var(--accent-2)">AG</text>
+              </svg>
+            </div>
+            <div class="exp-card-meta">
+              <div class="exp-company-row">
+                <h3 class="exp-company"><a href="https://acmegrade.com" target="_blank" rel="noopener" class="exp-company-link">Acmegrade</a></h3>
+              </div>
+              <div class="exp-role">Cybersecurity Intern</div>
+              <div class="exp-details-row">
+                <span class="exp-detail-pill">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  Jan 2024 – Mar 2024
+                </span>
+                <span class="exp-detail-pill exp-detail-pill--type">Internship</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="exp-desc">Hands-on exposure to real-world offensive security techniques, vulnerability assessment, and penetration testing methodologies.</p>
+
+          <div class="exp-section-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            What I Did
+          </div>
+          <ul class="exp-resp-list">
+            <li>Studied the Cyber Kill Chain framework and attack stage methodology.</li>
+            <li>Conducted web penetration testing to identify vulnerabilities in web applications.</li>
+            <li>Performed network scanning to detect potential security threats.</li>
+            <li>Created and tested payloads for vulnerability assessment and pen testing.</li>
+            <li>Analyzed various cyber attack types and adversary profiles.</li>
+          </ul>
+
+          <div class="exp-tech-tags">
+            <span class="exp-tag">Cyber Kill Chain</span>
+            <span class="exp-tag">Web Pentesting</span>
+            <span class="exp-tag">Network Scanning</span>
+            <span class="exp-tag">Payload Testing</span>
+            <span class="exp-tag">Vuln Assessment</span>
+          </div>
+        </div>
       </div>
-      <div class="timeline-item">
-        <div class="meta">2022 – 2025</div>
-        <h3>Bachelor of Science in Computer Science · <a class="job-link" href="https://www.sncollege.com/" target="_blank" rel="noopener">Shankar Narayan College of Arts &amp; Commerce</a></h3>
-        <p>Coursework and independent projects centered on application security, networking, and full-stack development.</p>
+
+      <!-- === Education === -->
+      <div class="exp-entry" data-index="2">
+        <div class="exp-entry-spine">
+          <div class="exp-node exp-node--edu">
+            <div class="exp-node-dot"></div>
+          </div>
+          <div class="exp-connector"></div>
+        </div>
+
+        <div class="exp-card exp-card--edu">
+          <div class="exp-card-header">
+            <div class="exp-logo-wrap" aria-hidden="true">
+              <svg viewBox="0 0 36 36" fill="none" class="exp-logo-svg">
+                <rect width="36" height="36" rx="8" fill="rgba(255, 194, 75, 0.12)"/>
+                <text x="18" y="22" text-anchor="middle" font-size="18" fill="var(--warning)">🎓</text>
+              </svg>
+            </div>
+            <div class="exp-card-meta">
+              <div class="exp-company-row">
+                <h3 class="exp-company">
+                  <a href="https://www.sncollege.com/" target="_blank" rel="noopener" class="exp-company-link">Shankar Narayan College</a>
+                </h3>
+                <span class="exp-edu-badge">Education</span>
+              </div>
+              <div class="exp-role">B.Sc. Computer Science</div>
+              <div class="exp-details-row">
+                <span class="exp-detail-pill">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  2022 – 2025
+                </span>
+                <span class="exp-detail-pill">Mumbai, India</span>
+              </div>
+            </div>
+          </div>
+          <p class="exp-desc">Coursework and independent projects centered on application security, networking, and full-stack development. Built a strong foundation across systems programming, algorithms, and secure software design.</p>
+          <div class="exp-tech-tags">
+            <span class="exp-tag">Application Security</span>
+            <span class="exp-tag">Networking</span>
+            <span class="exp-tag">Full-Stack Dev</span>
+            <span class="exp-tag">Systems Programming</span>
+            <span class="exp-tag">Algorithms</span>
+          </div>
+        </div>
       </div>
-      <div class="timeline-item">
-        <div class="meta">Ongoing</div>
-        <h3><a class="job-link" href="https://tryhackme.com/p/H4R5787?tab=yearly-activity" target="_blank" rel="noopener">TryHackMe — CTF practice</a></h3>
-        <p>Regular capture-the-flag challenges to build offensive security skills across web, network, and privilege-escalation tracks.</p>
+
+      <!-- === TryHackMe === -->
+      <div class="exp-entry exp-entry--last" data-index="3">
+        <div class="exp-entry-spine">
+          <div class="exp-node exp-node--ctf">
+            <div class="exp-node-dot"></div>
+          </div>
+        </div>
+
+        <div class="exp-card exp-card--ctf">
+          <div class="exp-card-header">
+            <div class="exp-logo-wrap" aria-hidden="true">
+              <svg viewBox="0 0 36 36" fill="none" class="exp-logo-svg">
+                <rect width="36" height="36" rx="8" fill="rgba(255, 92, 122, 0.12)"/>
+                <text x="18" y="22" text-anchor="middle" font-size="18" fill="var(--danger)">🏴</text>
+              </svg>
+            </div>
+            <div class="exp-card-meta">
+              <div class="exp-company-row">
+                <h3 class="exp-company">
+                  <a href="https://tryhackme.com/p/H4R5787?tab=yearly-activity" target="_blank" rel="noopener" class="exp-company-link">TryHackMe</a>
+                </h3>
+                <span class="exp-status-badge exp-status-badge--ctf">
+                  <span class="exp-status-dot exp-status-dot--ctf"></span>Ongoing
+                </span>
+              </div>
+              <div class="exp-role">CTF Practice &amp; Offensive Security</div>
+              <div class="exp-details-row">
+                <span class="exp-detail-pill">Self-directed</span>
+                <span class="exp-detail-pill exp-detail-pill--type">Continuous Learning</span>
+              </div>
+            </div>
+          </div>
+          <p class="exp-desc">Regular capture-the-flag challenges building offensive security skills across web exploitation, network hacking, and privilege-escalation tracks.</p>
+          <div class="exp-tech-tags">
+            <span class="exp-tag">Web Exploitation</span>
+            <span class="exp-tag">Network Hacking</span>
+            <span class="exp-tag">Priv Escalation</span>
+            <span class="exp-tag">CTF</span>
+            <span class="exp-tag">Offensive Security</span>
+          </div>
+        </div>
       </div>
+
+    </div><!-- /exp-timeline -->
+
+    <div class="cert-section-head" id="certifications">
+      <div class="kicker">Credentials &amp; Certifications</div>
+      <h2>Verified Certifications<span class="accent">.</span></h2>
     </div>
+
     <div class="cert-grid">
-      <div class="card cert-badge"><span class="icon">✓</span><div><strong>Google Cybersecurity Professional Certificate</strong><br><span class="field-label">Coursera</span></div></div>
-      <div class="card cert-badge"><span class="icon">✓</span><div><strong>Ethical Hacker Certification</strong><br><span class="field-label">Cisco</span></div></div>
+      <article class="card cert-card">
+        <div class="cert-card-header">
+          <div class="cert-issuer-badge">
+            <span class="cert-check" aria-hidden="true">✓</span>
+            <span class="cert-issuer">Google Cloud Security</span>
+          </div>
+          <span class="cert-date">October 2026</span>
+        </div>
+        <h3 class="cert-title">Accelerate Development with Antigravity</h3>
+        <div class="cert-id-row">
+          <span class="field-label">Credential ID:</span>
+          <span class="cert-id-code">a271c399-2a69-4503-9d0a-9bf2349889ae</span>
+        </div>
+        <div class="chip-row cert-skills">
+          <span class="chip">Application Development</span>
+          <span class="chip">Software Development</span>
+          <span class="chip">Agent Development</span>
+        </div>
+        <div class="cert-footer">
+          <a href="https://www.credly.com/badges/a271c399-2a69-4503-9d0a-9bf2349889ae/public_url" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm cert-btn">
+            View Credential <span class="cert-btn-icon" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="card cert-card">
+        <div class="cert-card-header">
+          <div class="cert-issuer-badge">
+            <span class="cert-check" aria-hidden="true">✓</span>
+            <span class="cert-issuer">Cisco</span>
+          </div>
+          <span class="cert-date">July 2024</span>
+        </div>
+        <h3 class="cert-title">Ethical Hacker</h3>
+        <div class="cert-id-row">
+          <span class="field-label">Credential ID:</span>
+          <span class="cert-id-code">48f7155e-24b8-474b-a40b-a64a989dd442</span>
+        </div>
+        <div class="chip-row cert-skills">
+          <span class="chip">Ethical Hacking</span>
+          <span class="chip">Exploiting Applications</span>
+          <span class="chip">Exploiting Networks</span>
+        </div>
+        <div class="cert-footer">
+          <a href="https://www.credly.com/badges/48f7155e-24b8-474b-a40b-a64a989dd442/public_url" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm cert-btn">
+            View Credential <span class="cert-btn-icon" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="card cert-card">
+        <div class="cert-card-header">
+          <div class="cert-issuer-badge">
+            <span class="cert-check" aria-hidden="true">✓</span>
+            <span class="cert-issuer">Coursera</span>
+          </div>
+          <span class="cert-date">February 2025</span>
+        </div>
+        <h3 class="cert-title">Google AI Essentials V1</h3>
+        <div class="cert-id-row">
+          <span class="field-label">Credential ID:</span>
+          <span class="cert-id-code">5261410e-9e0c-4164-a9b8-fcbd2bf9982d</span>
+        </div>
+        <div class="chip-row cert-skills">
+          <span class="chip">Augment Tasks with AI</span>
+          <span class="chip">Critical Thinking</span>
+          <span class="chip">Evaluate AI Tools</span>
+        </div>
+        <div class="cert-footer">
+          <a href="https://www.credly.com/badges/5261410e-9e0c-4164-a9b8-fcbd2bf9982d/public_url" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm cert-btn">
+            View Credential <span class="cert-btn-icon" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="card cert-card">
+        <div class="cert-card-header">
+          <div class="cert-issuer-badge">
+            <span class="cert-check" aria-hidden="true">✓</span>
+            <span class="cert-issuer">Coursera</span>
+          </div>
+          <span class="cert-date">July 2024</span>
+        </div>
+        <h3 class="cert-title">Google Cybersecurity Professional Certificate V2</h3>
+        <div class="cert-id-row">
+          <span class="field-label">Credential ID:</span>
+          <span class="cert-id-code">59287505-a66b-4c32-93c5-55365566eb33</span>
+        </div>
+        <div class="chip-row cert-skills">
+          <span class="chip">Network Security</span>
+          <span class="chip">Python (Programming Language)</span>
+          <span class="chip">Linux</span>
+        </div>
+        <div class="cert-footer">
+          <a href="https://www.credly.com/badges/59287505-a66b-4c32-93c5-55365566eb33/public_url" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm cert-btn">
+            View Credential <span class="cert-btn-icon" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </article>
+
       <div class="card cert-badge"><span class="icon">✓</span><div><strong>Top 100 — TCS HackQuest Season 9</strong><br><span class="field-label">One of India's leading cybersecurity competitions — vulnerability assessment, problem-solving &amp; secure application practices</span></div></div>
     </div>
   </section>
@@ -544,20 +1511,293 @@
 
   <!-- PLAY -->
   <section class="page" id="page-play" data-route="play">
-    <div class="section-head">
-      <div class="kicker">Play</div>
-      <h2>Take a break</h2>
+    <div class="play-section-head">
+      <div class="kicker">// ARCADE &amp; RELAXATION ZONE</div>
+      <div class="play-hero-headline">
+        <h2>Take a Break</h2>
+        <span class="play-hero-badge"><span class="arcade-status-beacon" aria-hidden="true"></span> 9 Playable Games</span>
+      </div>
+      <p class="play-hero-subtitle">You've been exploring my work. Let's have some fun! Challenge your reflexes, test your cyber skills, or unwind with lightweight canvas mini-games.</p>
+
+      <div class="arcade-stats-bar">
+        <div class="arcade-stat-item">
+          <span class="stat-icon" aria-hidden="true">🕹️</span>
+          <div>
+            <div class="stat-number">9 Canvas Games</div>
+            <div class="stat-caption">Pure Vanilla JS</div>
+          </div>
+        </div>
+        <div class="arcade-stat-divider" aria-hidden="true"></div>
+        <div class="arcade-stat-item">
+          <span class="stat-icon" aria-hidden="true">⚡</span>
+          <div>
+            <div class="stat-number">Zero Latency</div>
+            <div class="stat-caption">60 FPS Hardware Render</div>
+          </div>
+        </div>
+        <div class="arcade-stat-divider" aria-hidden="true"></div>
+        <div class="arcade-stat-item">
+          <span class="stat-icon" aria-hidden="true">📱</span>
+          <div>
+            <div class="stat-number">Keyboard &amp; Touch</div>
+            <div class="stat-caption">Responsive Virtual D-Pad</div>
+          </div>
+        </div>
+      </div>
     </div>
+
     <div class="play-grid" id="playGrid">
-      <button class="card play-card" data-game="snake"><h3>Snake</h3><p>Arrow keys to steer.</p></button>
-      <button class="card play-card" data-game="pong"><h3>Pong</h3><p>W / S to move your paddle.</p></button>
-      <button class="card play-card" data-game="breakout"><h3>Breakout</h3><p>Arrow keys to move the paddle.</p></button>
-      <button class="card play-card" data-game="tictactoe"><h3>Tic-Tac-Toe</h3><p>Click a square. Playing vs. a simple AI.</p></button>
-      <button class="card play-card" data-game="minesweeper"><h3>Minesweeper</h3><p>Left click to reveal, right click to flag.</p></button>
-      <button class="card play-card" data-game="memorymatch"><h3>Memory Match</h3><p>Flip cards to find matching security terms.</p></button>
-      <button class="card play-card" data-game="whackamole"><h3>Whack-a-Terminal</h3><p>Click the lit panel before it disappears.</p></button>
-      <button class="card play-card" data-game="reaction"><h3>Reaction Test</h3><p>Click the instant the panel turns green.</p></button>
-      <button class="card play-card" data-game="balls"><h3>Red Ball vs Blue Ball</h3><p>Arrow keys / WASD to ram the blue ball and knock its HP down.</p></button>
+      <!-- 1. Snake -->
+      <div class="card play-card" data-game="snake" role="button" tabindex="0" aria-label="Play Snake">
+        <div class="game-card-meta">
+          <span class="game-diff-badge medium"><span class="diff-dot"></span> Medium</span>
+          <span class="game-time-badge">~3 mins</span>
+        </div>
+        <div class="game-card-banner">
+          <div class="game-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#39FF6A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a4 4 0 0 1 4 4v4a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z"/>
+              <path d="M16 10a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0v-2"/>
+              <circle cx="12" cy="6" r="1" fill="#39FF6A"/>
+            </svg>
+          </div>
+          <div class="game-card-title-wrap">
+            <h3 class="game-title">Snake Classic</h3>
+            <div class="game-genre">Reflex · Retro Arcade</div>
+          </div>
+        </div>
+        <p class="game-desc">Navigate the neon grid, consume data packets to grow your tail, and avoid crashing into firewall boundaries.</p>
+        <div class="game-card-footer">
+          <span class="game-ctrl-hint">⌨️ Arrow keys</span>
+          <span class="play-btn-pill"><span class="play-triangle">▶</span> Play Now</span>
+        </div>
+      </div>
+
+      <!-- 2. Pong -->
+      <div class="card play-card" data-game="pong" role="button" tabindex="0" aria-label="Play Pong">
+        <div class="game-card-meta">
+          <span class="game-diff-badge easy"><span class="diff-dot"></span> Easy</span>
+          <span class="game-time-badge">~2 mins</span>
+        </div>
+        <div class="game-card-banner">
+          <div class="game-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4FD1FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="3" height="10" rx="1" fill="#4FD1FF"/>
+              <rect x="19" y="9" width="3" height="10" rx="1" fill="#4FD1FF"/>
+              <circle cx="12" cy="12" r="2.5" fill="#39FF6A"/>
+              <line x1="12" y1="2" x2="12" y2="22" stroke-dasharray="2 2" stroke="rgba(255,255,255,0.2)"/>
+            </svg>
+          </div>
+          <div class="game-card-title-wrap">
+            <h3 class="game-title">Retro Pong</h3>
+            <div class="game-genre">Sports · 1v1 vs Bot</div>
+          </div>
+        </div>
+        <p class="game-desc">Classic two-paddle duel. Deflect incoming packets against an adaptive AI paddle with precise angle shots.</p>
+        <div class="game-card-footer">
+          <span class="game-ctrl-hint">⌨️ W / S keys</span>
+          <span class="play-btn-pill"><span class="play-triangle">▶</span> Play Now</span>
+        </div>
+      </div>
+
+      <!-- 3. Breakout -->
+      <div class="card play-card" data-game="breakout" role="button" tabindex="0" aria-label="Play Breakout">
+        <div class="game-card-meta">
+          <span class="game-diff-badge medium"><span class="diff-dot"></span> Medium</span>
+          <span class="game-time-badge">~3 mins</span>
+        </div>
+        <div class="game-card-banner">
+          <div class="game-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4FD1FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="4" height="2" fill="#4FD1FF"/>
+              <rect x="10" y="3" width="4" height="2" fill="#4FD1FF"/>
+              <rect x="17" y="3" width="4" height="2" fill="#4FD1FF"/>
+              <rect x="6" y="8" width="4" height="2" fill="#39FF6A"/>
+              <rect x="14" y="8" width="4" height="2" fill="#39FF6A"/>
+              <rect x="8" y="19" width="8" height="2" rx="1" fill="#39FF6A"/>
+              <circle cx="12" cy="14" r="2" fill="#E7EBF3"/>
+            </svg>
+          </div>
+          <div class="game-card-title-wrap">
+            <h3 class="game-title">Breakout Grid</h3>
+            <div class="game-genre">Action · Brick Demolition</div>
+          </div>
+        </div>
+        <p class="game-desc">Bounce the plasma projectile to shatter defense blocks. Keep the pulse active without letting it slip below your paddle.</p>
+        <div class="game-card-footer">
+          <span class="game-ctrl-hint">⌨️ Left / Right</span>
+          <span class="play-btn-pill"><span class="play-triangle">▶</span> Play Now</span>
+        </div>
+      </div>
+
+      <!-- 4. Tic-Tac-Toe -->
+      <div class="card play-card" data-game="tictactoe" role="button" tabindex="0" aria-label="Play Tic-Tac-Toe">
+        <div class="game-card-meta">
+          <span class="game-diff-badge easy"><span class="diff-dot"></span> Easy</span>
+          <span class="game-time-badge">~1 min</span>
+        </div>
+        <div class="game-card-banner">
+          <div class="game-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#39FF6A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="8" y1="2" x2="8" y2="22"/>
+              <line x1="16" y1="2" x2="16" y2="22"/>
+              <line x1="2" y1="8" x2="22" y2="8"/>
+              <line x1="2" y1="16" x2="22" y2="16"/>
+              <circle cx="4" cy="4" r="1.5" stroke="#4FD1FF"/>
+              <line x1="19" y1="3" x2="21" y2="5" stroke="#FF5C7A"/>
+              <line x1="21" y1="3" x2="19" y2="5" stroke="#FF5C7A"/>
+            </svg>
+          </div>
+          <div class="game-card-title-wrap">
+            <h3 class="game-title">Tic-Tac-Toe</h3>
+            <div class="game-genre">Puzzle · Minimax AI</div>
+          </div>
+        </div>
+        <p class="game-desc">Take on an analytical minimax algorithm on a 3x3 security grid. Can you find a flaw in the machine's defense?</p>
+        <div class="game-card-footer">
+          <span class="game-ctrl-hint">🖱️ Mouse Click</span>
+          <span class="play-btn-pill"><span class="play-triangle">▶</span> Play Now</span>
+        </div>
+      </div>
+
+      <!-- 5. Minesweeper -->
+      <div class="card play-card" data-game="minesweeper" role="button" tabindex="0" aria-label="Play Minesweeper">
+        <div class="game-card-meta">
+          <span class="game-diff-badge hard"><span class="diff-dot"></span> Hard</span>
+          <span class="game-time-badge">~4 mins</span>
+        </div>
+        <div class="game-card-banner">
+          <div class="game-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#FF5C7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5" fill="rgba(255,92,122,0.2)"/>
+              <line x1="12" y1="2" x2="12" y2="6"/>
+              <line x1="12" y1="18" x2="12" y2="22"/>
+              <line x1="2" y1="12" x2="6" y2="12"/>
+              <line x1="18" y1="12" x2="22" y2="12"/>
+              <line x1="5" y1="5" x2="8" y2="8"/>
+              <line x1="16" y1="16" x2="19" y2="19"/>
+              <line x1="5" y1="19" x2="8" y2="16"/>
+              <line x1="16" y1="8" x2="19" y2="5"/>
+            </svg>
+          </div>
+          <div class="game-card-title-wrap">
+            <h3 class="game-title">Minesweeper</h3>
+            <div class="game-genre">Strategy · Logic Sweep</div>
+          </div>
+        </div>
+        <p class="game-desc">Scan memory cells and flag buried cyber mines. Uncover the entire safe matrix without triggering a single detonation.</p>
+        <div class="game-card-footer">
+          <span class="game-ctrl-hint">🖱️ Left / Right Click</span>
+          <span class="play-btn-pill"><span class="play-triangle">▶</span> Play Now</span>
+        </div>
+      </div>
+
+      <!-- 6. Memory Match -->
+      <div class="card play-card" data-game="memorymatch" role="button" tabindex="0" aria-label="Play Memory Match">
+        <div class="game-card-meta">
+          <span class="game-diff-badge medium"><span class="diff-dot"></span> Medium</span>
+          <span class="game-time-badge">~2 mins</span>
+        </div>
+        <div class="game-card-banner">
+          <div class="game-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4FD1FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="8" height="8" rx="2"/>
+              <rect x="13" y="3" width="8" height="8" rx="2" stroke="#39FF6A"/>
+              <rect x="3" y="13" width="8" height="8" rx="2" stroke="#39FF6A"/>
+              <rect x="13" y="13" width="8" height="8" rx="2"/>
+            </svg>
+          </div>
+          <div class="game-card-title-wrap">
+            <h3 class="game-title">Memory Match</h3>
+            <div class="game-genre">Memory · Terminology</div>
+          </div>
+        </div>
+        <p class="game-desc">Flip encrypted cards and match security concepts: JWT, SQLi, XSS, SSH, TLS, and Zero-Day in minimal moves.</p>
+        <div class="game-card-footer">
+          <span class="game-ctrl-hint">🖱️ Mouse Click</span>
+          <span class="play-btn-pill"><span class="play-triangle">▶</span> Play Now</span>
+        </div>
+      </div>
+
+      <!-- 7. Whack-a-Terminal -->
+      <div class="card play-card" data-game="whackamole" role="button" tabindex="0" aria-label="Play Whack-a-Terminal">
+        <div class="game-card-meta">
+          <span class="game-diff-badge hard"><span class="diff-dot"></span> Hard</span>
+          <span class="game-time-badge">~1 min</span>
+        </div>
+        <div class="game-card-banner">
+          <div class="game-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#39FF6A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="14" rx="2"/>
+              <line x1="7" y1="10" x2="10" y2="10"/>
+              <polyline points="13 13 15 15 17 11"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="18" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <div class="game-card-title-wrap">
+            <h3 class="game-title">Whack-a-Terminal</h3>
+            <div class="game-genre">Speed · Quick Target</div>
+          </div>
+        </div>
+        <p class="game-desc">Rogue terminal processes are surfacing in your server mesh! Click glowing terminal nodes before their TTL expires.</p>
+        <div class="game-card-footer">
+          <span class="game-ctrl-hint">🖱️ Mouse Click</span>
+          <span class="play-btn-pill"><span class="play-triangle">▶</span> Play Now</span>
+        </div>
+      </div>
+
+      <!-- 8. Reaction Test -->
+      <div class="card play-card" data-game="reaction" role="button" tabindex="0" aria-label="Play Reaction Test">
+        <div class="game-card-meta">
+          <span class="game-diff-badge medium"><span class="diff-dot"></span> Medium</span>
+          <span class="game-time-badge">~30 secs</span>
+        </div>
+        <div class="game-card-banner">
+          <div class="game-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#39FF6A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <polyline points="12 7 12 12 15 15"/>
+              <path d="M12 2v2"/>
+            </svg>
+          </div>
+          <div class="game-card-title-wrap">
+            <h3 class="game-title">Reaction Test</h3>
+            <div class="game-genre">Reflex · Millisecond Timer</div>
+          </div>
+        </div>
+        <p class="game-desc">Wait for the dark standby matrix to flash neon green, then click instantly to measure your neural reaction speed in milliseconds.</p>
+        <div class="game-card-footer">
+          <span class="game-ctrl-hint">🖱️ Single Click</span>
+          <span class="play-btn-pill"><span class="play-triangle">▶</span> Play Now</span>
+        </div>
+      </div>
+
+      <!-- 9. Red Ball vs Blue Ball -->
+      <div class="card play-card" data-game="balls" role="button" tabindex="0" aria-label="Play Red Ball vs Blue Ball">
+        <div class="game-card-meta">
+          <span class="game-diff-badge hard"><span class="diff-dot"></span> Hard</span>
+          <span class="game-time-badge">~2 mins</span>
+        </div>
+        <div class="game-card-banner">
+          <div class="game-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#FF5C7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="8" cy="12" r="5" fill="#FF5C7A"/>
+              <circle cx="16" cy="12" r="5" fill="#4FD1FF"/>
+              <path d="M10 7l4 10" stroke="#fff" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="game-card-title-wrap">
+            <h3 class="game-title">Cyber Ball Duel</h3>
+            <div class="game-genre">Combat · Arena Physics</div>
+          </div>
+        </div>
+        <p class="game-desc">Pilot the red combat sphere into the rogue blue orb. Master velocity vectors, shield rebounds, and deplete its HP.</p>
+        <div class="game-card-footer">
+          <span class="game-ctrl-hint">⌨️ WASD / Arrows</span>
+          <span class="play-btn-pill"><span class="play-triangle">▶</span> Play Now</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -575,14 +1815,33 @@
 <div class="modal-scrim" id="gameModal">
   <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="gameTitle">
     <div class="modal-head">
-      <h3 id="gameTitle">Game</h3>
+      <div class="modal-title-group">
+        <h3 id="gameTitle">Game</h3>
+        <span class="modal-arcade-tag">ARCADE</span>
+      </div>
       <button class="modal-close" id="closeGame" aria-label="Close game">✕</button>
     </div>
     <div class="canvas-frame"><canvas id="gameCanvas" width="460" height="360"></canvas></div>
     <div id="gameStatus" class="game-status" aria-live="polite"></div>
     <div class="game-meta">
-      <span id="gameHint">Score: <strong id="gameScore">0</strong></span>
-      <button id="restartGame">Restart</button>
+      <div class="game-score-box">
+        <span id="gameHint">Score: <strong id="gameScore">0</strong></span>
+      </div>
+      <div class="modal-actions">
+        <button id="restartGame" class="restart-game-btn">Restart</button>
+      </div>
+    </div>
+    <!-- Mobile / Touch Controls -->
+    <div class="mobile-touch-controls" id="touchControls" aria-label="Touch Gamepad Controls">
+      <div class="dpad-container">
+        <button class="dpad-btn up" data-dpad="ArrowUp" aria-label="Move Up">▲</button>
+        <div class="dpad-mid-row">
+          <button class="dpad-btn left" data-dpad="ArrowLeft" aria-label="Move Left">◀</button>
+          <div class="dpad-center" aria-hidden="true">●</div>
+          <button class="dpad-btn right" data-dpad="ArrowRight" aria-label="Move Right">▶</button>
+        </div>
+        <button class="dpad-btn down" data-dpad="ArrowDown" aria-label="Move Down">▼</button>
+      </div>
     </div>
   </div>
 </div>
